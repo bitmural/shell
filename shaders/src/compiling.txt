@@ -1,0 +1,5 @@
+https://doc.qt.io/qt-6/qtshadertools-qsb.html
+
+Compiling works fine for .frag and .vert, the qsb tool figures it out and generates a .qsb appropriately
+
+qsb --glsl "100 es,120,150" --hlsl 50 --msl 12 -o shader.frag.qsb shader.frag

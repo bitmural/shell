@@ -1,0 +1,58 @@
+#version 440
+//https://www.shadertoy.com/view/tltyRM
+
+layout(location = 0) in vec2 qt_TexCoord0;
+layout(location = 1) in vec2 fragCoord;
+layout(location = 0) out vec4 fragColor;
+
+layout(std140, binding = 0) uniform buf {
+    mat4 qt_Matrix;
+    float qt_Opacity;
+    vec2 iResolution;
+    float iTime;
+};
+
+layout(binding = 1) uniform sampler2D iSource;
+
+vec2 hash3(in vec2 p)
+{
+  vec2 q = vec2(dot(p, vec2(127.1,311.7)), dot(p, vec2(269.5,183.3)));
+  return fract(sin(q) * 43758.5453);
+}
+
+float noise(in vec2 x)
+{
+  float intensity = 0.4;
+  x *= intensity;
+
+  vec2 p = floor(x);
+  vec2 f = fract(x);
+
+  float va = 0.0;
+  for ( int j = -2; j <= 2 ; j ++ )
+  for ( int i = -2; i <= 2 ; i ++ )
+  {
+    vec2 g = vec2(float(i), float(j));
+    vec2 o = hash3(p + g);
+    vec2 r = ((g - f) + o.xy) / intensity;
+    float d = sqrt(dot(r, r));
+
+    float a = max(cos(d - iTime * 2.0 + (o.x + o.y) * 5.0), 0.0);
+    a = smoothstep(0.99, 0.999, a);
+
+    float ripple = mix(a, 0.0, d);
+    va += max(ripple, 0.0);
+  }
+  return va;
+}
+
+void main() {
+  fragColor = texture(iSource, qt_TexCoord0);
+  vec2 uv = fragCoord.xy / iResolution.xy;
+
+	float f = noise(12.0 * uv);
+
+  vec3 normal = vec3(dFdy(f) + qt_Opacity, dFdy(f) + qt_Opacity, dFdy(f) + qt_Opacity);
+  fragColor = fragColor * vec4(normal, qt_Opacity);
+
+}
