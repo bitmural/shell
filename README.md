@@ -1,0 +1,2 @@
+# shell
+Quickshell dots
