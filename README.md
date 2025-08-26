@@ -2,12 +2,19 @@
 
 Runs on NixOS unstable using uwsm based Hyprland. The main reason I created this shell was to be able to turn my computer off and connect my bluetooth headphones without the cli. I also don't really like bars. 
 
+
+https://github.com/user-attachments/assets/c870749c-206b-467f-889f-8ef67872ac79
+
+
 ## Dependencies
 - Hyprland
 - Quickshell v0.2.0
 
-## Install
-Copy the repo content into `~/.config/quickshell` and run `quickshell` from a cli. For running on startup, a simple `exec-onces = uwsm app -- quickshell` in `~/.config/hypr/hyprland.conf` should suffice.
+## Install & Run
+After installing the dependencies, copy the repo content into `~/.config/quickshell`, add a `quickshell:desktop` bind in `~/.config/hypr/hyprland.conf` and run `quickshell` from a cli. For running on startup, a simple `exec-onces = uwsm app -- quickshell` in `~/.config/hypr/hyprland.conf` should suffice.
+
+## Use
+This is a fullscreen popup style shell, not a bar. Make sure there is an appropriate global bind in `hyprland.conf` such as, `bind = CTRL, SUPER_L, global, quickshell:desktop`.
 
 ## Configure
 Configuration options are in `~/.config/quickshell/config.json`, including the background image location.
